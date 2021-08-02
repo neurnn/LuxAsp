@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>LuxAsp.EFCore.Authorizations</AssemblyName>
+    <RootNamespace>LuxAsp</RootNamespace>
+    <Authors>Jaehoon Jo</Authors>
+    <Company>neurnn</Company>
+    <Description>Entity Framework Core based Authorization Module for LuxAsp.</Description>
+    <Copyright>copyright (c) 2021 neurnn, all rights reserved</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LuxAsp.EFCore\LuxAsp.EFCore.csproj" />
+    <ProjectReference Include="..\LuxAsp\LuxAsp.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>LuxAsp</RootNamespace>
+    <Authors>Jaehoon Jo</Authors>
+    <Company>neurnn</Company>
+    <Copyright>copyright (c) 2021 neurnn, all rights reserved</Copyright>
+    <Description>Storage Module for LuxAsp.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LuxAsp\LuxAsp.csproj" />
+  </ItemGroup>
+
+</Project>
