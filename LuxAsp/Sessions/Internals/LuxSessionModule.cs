@@ -16,9 +16,12 @@ namespace LuxAsp.Sessions.Internals
     {
         protected override void Configure(ILuxHostBuilder Builder)
         {
-            var Options = LuxSessionOptions.GetOption(Builder.Properties);
+            Builder.Use<LuxSessionOptions>();
             Builder.ConfigureServices(Priority.Before(Priority.Session), App =>
             {
+                var Options = Builder.GetConfiguration<LuxSessionOptions>();
+
+                App.AddSingleton(Options);
                 App.AddSingleton<ILuxSessionStoreWorker, LuxSessionStoreWorker>();
 
                 /* Add the Session as Http Request Service.
@@ -41,11 +44,6 @@ namespace LuxAsp.Sessions.Internals
                         });
                 });
             });
-
-            /* Configure Session Store Service after Session Stage.
-             * This publishes LuxSessionOptions and ILuxSessionStore instances. */
-            Builder.ConfigureServices(Priority.After(Priority.Session),
-                App => App.AddSingleton(Options.AddService(App)));
         }
     }
 }

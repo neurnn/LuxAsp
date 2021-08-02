@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using static LuxAsp.LuxHostModule;
 
 namespace LuxAsp.Sessions
 {
-    public sealed class LuxSessionOptions
+    public sealed class LuxSessionOptions : LuxHostConfiguration
     {
         private Type m_SessionStoreType;
         private Func<IServiceProvider, ILuxSessionStore> m_SessionStoreFactory;
@@ -77,17 +78,20 @@ namespace LuxAsp.Sessions
         /// <summary>
         /// Add Service to Service Collection
         /// </summary>
-        /// <param name="Services"></param>
-        internal LuxSessionOptions AddService(IServiceCollection Services)
+        protected override void Configure(ILuxHostBuilder Builder)
         {
-            if (m_SessionStoreFactory != null)
-                Services.AddSingleton(m_SessionStoreFactory);
+            /* Configure Session Store Service after Session Stage.
+             * This publishes LuxSessionOptions and ILuxSessionStore instances. */
+            Builder.ConfigureServices(Priority.After(Priority.Session), Services =>
+            {
+                if (m_SessionStoreFactory != null)
+                    Services.AddSingleton(m_SessionStoreFactory);
 
-            else if (m_SessionStoreType != null)
-                Services.AddSingleton(typeof(ILuxSessionStore), m_SessionStoreType);
+                else if (m_SessionStoreType != null)
+                    Services.AddSingleton(typeof(ILuxSessionStore), m_SessionStoreType);
 
-            else Services.AddSingleton<ILuxSessionStore, LuxFileSessionStore>();
-            return this;
+                else Services.AddSingleton<ILuxSessionStore, LuxFileSessionStore>();
+            });
         }
     }
 }

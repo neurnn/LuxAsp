@@ -219,5 +219,6 @@ namespace LuxAsp
                 return This.Properties[typeof(TConfiguration)] as TConfiguration;
             }
         }
+
     }
 }
