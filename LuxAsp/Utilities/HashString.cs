@@ -30,8 +30,8 @@ namespace LuxAsp.Utilities
 
             using (Algo)
             {
-                var Bytes = Encoding.UTF8.GetBytes(Input);
-                return $"{Algo}:{BitConverter.ToString(Bytes).Replace("-", "")}";
+                var Bytes = Algo.ComputeHash(Encoding.UTF8.GetBytes(Input));
+                return $"{Algorithm}:{BitConverter.ToString(Bytes).Replace("-", "")}";
             }
         }
 

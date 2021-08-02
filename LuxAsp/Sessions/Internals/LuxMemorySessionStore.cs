@@ -36,7 +36,7 @@ namespace LuxAsp.Sessions.Internals
                 lock (m_Instances)
                 {
                     if (!m_Instances.ContainsKey(New.Guid))
-                        return New;
+                        return m_Instances[New.Guid] = New;
                 }
             }
         }

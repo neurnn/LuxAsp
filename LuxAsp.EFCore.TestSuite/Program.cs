@@ -14,6 +14,8 @@ using System.IO;
 using static LuxAsp.LuxHostModule;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.FileProviders;
+using LuxAsp.Authorizations;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LuxAsp.EFCore.TestSuite
 {
@@ -67,6 +69,23 @@ namespace LuxAsp.EFCore.TestSuite
             {
                 /* Mount Storage Directory. */
                 Storages.MountFileSystem(null, AppDir("/storage"), "/files");
+            });
+
+            Builder.ConfigureMigrations(Services =>
+            {
+                var Users = Services.GetRequiredService<LuxUserRepository>();
+                var Admin = Users
+                    .Load(Users.Query(Y => Y.LoginName == "admin"))
+                    .FirstOrDefault();
+
+                if (Admin is null)
+                {
+                    Admin = Users.Create("admin", "12345678", "최고관리자");
+
+                    if (!Admin.Save())
+                        throw new InvalidOperationException("Couldn't create the administrator.");
+                }
+
             });
         }
     }

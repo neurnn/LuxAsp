@@ -165,21 +165,88 @@ namespace LuxAsp
         /// </summary>
         /// <param name="Selector"></param>
         /// <returns></returns>
-        public virtual IQueryable<TEntity> Query() => new Queryable(DbSet, m_Bridge);
+        public virtual IQueryable<TEntity> Query() => DbSet;
 
         /// <summary>
         /// Query Entities by Selector.
         /// </summary>
         /// <param name="Selector"></param>
         /// <returns></returns>
-        public virtual IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> Selector) => new Queryable(DbSet.Where(Selector), m_Bridge);
+        public virtual IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> Selector) => DbSet.Where(Selector);
 
         /// <summary>
         /// Load Entities by Selector.
         /// </summary>
         /// <param name="Selector"></param>
         /// <returns></returns>
-        public virtual IEnumerable<TEntity> Load(Func<IQueryable<TEntity>, IEnumerable<TEntity>> Selector) => Selector(new Queryable(DbSet, m_Bridge));
+        public virtual IEnumerable<TEntity> Load(Func<IQueryable<TEntity>, IEnumerable<TEntity>> Selector)
+        {
+            foreach(var Each in Selector(DbSet))
+            {
+                Each.IsNew = false;
+                Each.SetBridge(m_Bridge);
+                Each.NotifyLoaded().Wait();
+                yield return Each;
+            }
+        }
+
+        /// <summary>
+        /// Load Entities by Selector.
+        /// </summary>
+        /// <param name="Selector"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<TEntity>> LoadAsync(Func<IQueryable<TEntity>, IEnumerable<TEntity>> Selector)
+        {
+            var Items = new List<TEntity>();
+
+            foreach (var Each in Selector(DbSet))
+            {
+                Each.IsNew = false;
+                Each.SetBridge(m_Bridge);
+                await Each.NotifyLoaded();
+
+                Items.Add(Each);
+            }
+
+            return Items;
+        }
+
+        /// <summary>
+        /// Load Entities by Query.
+        /// </summary>
+        /// <param name="Query"></param>
+        /// <returns></returns>
+        public virtual IEnumerable<TEntity> Load(IQueryable<TEntity> Query)
+        {
+            foreach (var Each in Query)
+            {
+                Each.IsNew = false;
+                Each.SetBridge(m_Bridge);
+                Each.NotifyLoaded().Wait();
+                yield return Each;
+            }
+        }
+
+        /// <summary>
+        /// Load Entities by Selector.
+        /// </summary>
+        /// <param name="Selector"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<TEntity>> LoadAsync(IQueryable<TEntity> Query)
+        {
+            var Items = new List<TEntity>();
+
+            foreach (var Each in Query)
+            {
+                Each.IsNew = false;
+                Each.SetBridge(m_Bridge);
+                await Each.NotifyLoaded();
+
+                Items.Add(Each);
+            }
+
+            return Items;
+        }
 
         /// <summary>
         /// Called when the model is created on the database.
