@@ -151,7 +151,12 @@ namespace LuxAsp.Authorizations.Internals
         /// </summary>
         public ILuxAuthenticatedMember Member
         {
-            get => m_Member;
+            get
+            {
+                Load();
+
+                return m_Member;
+            }
             set
             {
                 Initiate();

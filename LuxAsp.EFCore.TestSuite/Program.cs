@@ -71,6 +71,11 @@ namespace LuxAsp.EFCore.TestSuite
                 Storages.MountFileSystem(null, AppDir("/storage"), "/files");
             });
 
+            /* Configure the authentication providers based-on. */
+            Builder.Use<LuxAuthenticationBuilder>(
+                Auth => Auth.UseUserAuthentication<LuxUserModel, LuxTokenModel>());
+
+
             Builder.ConfigureMigrations(Services =>
             {
                 var Users = Services.GetRequiredService<LuxUserRepository>();

@@ -113,7 +113,7 @@ namespace LuxAsp.Sessions
                 if (m_KeyValues.TryGetValue(Key, out var Value))
                     return Value;
 
-                if ((Value = Default()) != null)
+                if (Default != null && (Value = Default()) != null)
                     return m_KeyValues[Key] = Value;
 
                 return null;
