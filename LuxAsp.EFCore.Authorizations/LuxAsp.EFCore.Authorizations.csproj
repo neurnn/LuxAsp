@@ -9,11 +9,20 @@
     <Description>Entity Framework Core based Authorization Module for LuxAsp.</Description>
     <Copyright>copyright (c) 2021 neurnn, all rights reserved</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/neurnn/LuxAsp</RepositoryUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LuxAsp.EFCore\LuxAsp.EFCore.csproj" />
     <ProjectReference Include="..\LuxAsp\LuxAsp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
