@@ -90,7 +90,7 @@ namespace LuxAsp.Sessions
                 else if (m_SessionStoreType != null)
                     Services.AddSingleton(typeof(ILuxSessionStore), m_SessionStoreType);
 
-                else Services.AddSingleton<ILuxSessionStore, LuxFileSessionStore>();
+                else Services.AddSingleton<ILuxSessionStore, LuxMemorySessionStore>();
             });
         }
     }
