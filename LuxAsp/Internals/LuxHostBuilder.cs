@@ -37,8 +37,8 @@ namespace LuxAsp.Internals
             m_StackedAssemblies.Add(typeof(LuxHostBuilder).Assembly);
 
             HostBuilder
-                .ConfigureAppConfiguration(CaptureSettings)
-                .ConfigureWebHostDefaults(OnConfigureWebHostDefaults);
+                 .ConfigureAppConfiguration(CaptureSettings)
+                 .ConfigureWebHostDefaults(OnConfigureWebHostDefaults);
         }
 
         /// <summary>
@@ -113,7 +113,14 @@ namespace LuxAsp.Internals
         /// Called when the Lux WebHost Builder should be configured.
         /// </summary>
         /// <param name="Builder"></param>
-        private void OnConfigureWebHostDefaults(IWebHostBuilder Builder) => Builder.UseStartup(X => new Startup(X, this));
+        private void OnConfigureWebHostDefaults(IWebHostBuilder Builder)
+        {
+            var EntryAssembly = Assembly.GetEntryAssembly().GetName().Name;
+
+            Builder
+                .UseStartup(X => new Startup(X, this))
+                .UseSetting(WebHostDefaults.ApplicationKey, EntryAssembly);
+        }
 
         /// <summary>
         /// Add <see cref="Assembly"/> as Application Parts.
@@ -249,5 +256,6 @@ namespace LuxAsp.Internals
         /// <returns></returns>
         public IEnumerable<Action<IServiceProvider>> GetMigrations() 
             => m_Migrations.OrderBy(X => X.Item1).Select(X => X.Item2);
+
     }
 }

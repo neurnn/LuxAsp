@@ -1,6 +1,7 @@
 ﻿using LuxAsp.Sessions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -59,34 +60,54 @@ namespace LuxAsp.Internals
         }
 
         /// <summary>
+        /// Get Service From the Service Collection.
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <param name="Services"></param>
+        /// <returns></returns>
+        private static TService GetServiceFromCollection<TService>(IServiceCollection Services) where TService : class
+        {
+            var LOD = Services.LastOrDefault(d => d.ServiceType == typeof(TService));
+
+            if (LOD is null || LOD.ImplementationInstance is null)
+                return default;
+
+            return LOD.ImplementationInstance as TService;
+        }
+
+        /// <summary>
         /// Configure Default MVC Services.
         /// </summary>
         /// <param name="Builder"></param>
         private static void ConfigureMvcPattern(ILuxHostBuilder Builder)
         {
-            //Builder.ConfigureServices(int.MinValue, App =>
-            //{
-            //    var MvcBuilders = new IMvcBuilder[] {
-            //        App.AddControllers(),
-            //        App.AddRazorPages().AddRazorRuntimeCompilation()
-            //    }.GroupBy(X => X).Select(X => X.Key);
+            Builder.ConfigureServices(int.MinValue, App =>
+            {
+                var AppParts = Builder.GetApplicationParts()
+                    .Append(Assembly.GetEntryAssembly())
+                    .GroupBy(X => X.FullName)
+                    .SelectMany(X => X);
 
-            //    var AppParts = Builder.GetApplicationParts()
-            //        .Append(Assembly.GetEntryAssembly())
-            //        .GroupBy(X => X.FullName)
-            //        .SelectMany(X => X);
+                var MvcBuilders = new IMvcBuilder[] {
+                    App.AddControllers(),
+                    App.AddRazorPages().AddRazorRuntimeCompilation()
+                }.GroupBy(X => X).Select(X => X.Key);
 
-            //    foreach (var AppPart in AppParts)
-            //    {
-            //        foreach (var Mvc in MvcBuilders)
-            //            Mvc.AddApplicationPart(AppPart);
+                App.Configure<MvcRazorRuntimeCompilationOptions>(
+                    Options =>
+                    {
+                        foreach (var AppPart in AppParts)
+                            Options.FileProviders.Add(new EmbeddedFileProvider(AppPart));
+                    });
 
-            //        AddEmbeddedFileProvider(App, AppPart);
-            //    }
+                foreach (var Mvc in MvcBuilders)
+                {
+                    foreach (var AppPart in AppParts)
+                        Mvc.AddApplicationPart(AppPart);
 
-            //    foreach (var Mvc in MvcBuilders)
-            //        Mvc.AddNewtonsoftJson();
-            //});
+                    Mvc.AddNewtonsoftJson();
+                }
+            });
 
             /* Configure the authorization. */
             Builder.Configure(Priority.Between_Default_Late,
@@ -95,17 +116,6 @@ namespace LuxAsp.Internals
                     App.UseRouting();
                     App.UseAuthorization();
                 });
-        }
-
-        /// <summary>
-        /// Configure Embedded File Providers.
-        /// </summary>
-        /// <param name="App"></param>
-        /// <param name="AppPart"></param>
-        private static void AddEmbeddedFileProvider(IServiceCollection App, Assembly AppPart)
-        {
-            App.Configure<MvcRazorRuntimeCompilationOptions>(
-                Options => Options.FileProviders.Add(new EmbeddedFileProvider(AppPart)));
         }
     }
 }

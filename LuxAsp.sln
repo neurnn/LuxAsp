@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuxAsp.EFCore.TestSuite", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuxAsp.Storages", "LuxAsp.Storages\LuxAsp.Storages.csproj", "{859FE95F-AF13-4B13-BDE5-B5B2E56EEA6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuxAsp.WebSockets", "LuxAsp.WebSockets\LuxAsp.WebSockets.csproj", "{5207DC30-DA7B-4247-8752-A8EC3A5B40D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuxAsp.WebSockets", "LuxAsp.WebSockets\LuxAsp.WebSockets.csproj", "{5207DC30-DA7B-4247-8752-A8EC3A5B40D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

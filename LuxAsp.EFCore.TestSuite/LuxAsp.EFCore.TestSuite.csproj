@@ -21,8 +21,4 @@
     <ProjectReference Include="..\LuxAsp\LuxAsp.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\" />
-  </ItemGroup>
-
 </Project>
