@@ -68,7 +68,7 @@ namespace LuxAsp.Implementations
                 return FALSE_TASK;
 
             Path = System.IO.Path.Combine(BaseDirectory.FullName, Path.TrimStart('/', '\\'));
-            return Task.FromResult(File.Exists(Path));
+            return Task.FromResult(File.Exists(Path) || Directory.Exists(Path));
         }
 
         /// <summary>
@@ -102,9 +102,13 @@ namespace LuxAsp.Implementations
                 return false;
 
             Path = System.IO.Path.Combine(BaseDirectory.FullName, Path.TrimStart('/', '\\'));
+            var BasePath = System.IO.Path.GetDirectoryName(Path);
 
             try
             {
+                if (!Directory.Exists(BasePath))
+                     Directory.CreateDirectory(BasePath);
+
                 var Attribute = File.GetAttributes(Path);
                 if (Attribute.HasFlag(FileAttributes.Directory))
                     throw new NotSupportedException("the path indicates a directory.");
