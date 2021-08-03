@@ -41,6 +41,8 @@ namespace LuxAsp.Authorizations
                 New.Name = Name;
 
                 New.SetPassword(Password);
+
+                Callback?.Invoke(New);
                 return New;
             });
         }
@@ -68,6 +70,8 @@ namespace LuxAsp.Authorizations
                 New.Name = Name;
 
                 New.SetPassword(Password);
+                Callback?.Invoke(New);
+
                 return New;
             });
         }

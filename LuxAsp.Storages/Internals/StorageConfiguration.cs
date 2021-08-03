@@ -33,7 +33,7 @@ namespace LuxAsp.Internals
             Builder.ConfigureServices(int.MinValue, Services =>
             {
                 /* Add Storage Acessor instance. */
-                Services.AddHttpService(Context
+                Services.AddHttpService<IStorageProvider>(Context
                     => new StorageProvider(Context, m_Registrations));
             });
         }

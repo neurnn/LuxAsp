@@ -212,6 +212,14 @@ namespace LuxAsp
         }
 
         /// <summary>
+        /// Create the Pagination.
+        /// </summary>
+        /// <param name="Query"></param>
+        /// <returns></returns>
+        public virtual Pagination<TEntity> CreatePagination(IQueryable<TEntity> Query = null)
+            => new Pagination<TEntity>(this, Query ?? DbSet);
+
+        /// <summary>
         /// Load Entities by Query.
         /// </summary>
         /// <param name="Query"></param>
