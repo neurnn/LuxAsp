@@ -44,7 +44,7 @@ namespace LuxAsp.Authorizations
         /// <summary>
         /// Password.
         /// </summary>
-        [Required][MaxLength(255)]
+        [Required][MaxLength(255)][JsonIgnore]
         public string Password { get; set; }
 
         /// <summary>

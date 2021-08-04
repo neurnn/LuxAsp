@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace LuxAsp
         internal Task NotifyDeleted() => OnDeleted();
 
 
-        [NotMapped]
+        [NotMapped][JsonIgnore]
         private Repository.IBridge m_Bridge;
 
         /// <summary>
@@ -28,31 +29,31 @@ namespace LuxAsp
         /// <summary>
         /// Determines whether the model is new or not.
         /// </summary>
-        [NotMapped]
+        [NotMapped][JsonIgnore]
         public bool IsNew { get; internal set; } = true;
 
         /// <summary>
         /// Test whether the model is valid or not.
         /// </summary>
-        [NotMapped]
+        [NotMapped][JsonIgnore]
         public bool IsValid => m_Bridge != null;
 
         /// <summary>
         /// Test whether the model has changes or not.
         /// </summary>
-        [NotMapped]
+        [NotMapped][JsonIgnore]
         public bool IsChanged => IsNew || (m_Bridge != null && m_Bridge.IsChanged(this));
 
         /// <summary>
         /// Gets the repository service if this model is valid.
         /// </summary>
-        [NotMapped]
+        [NotMapped][JsonIgnore]
         public IServiceProvider Services => m_Bridge != null ? m_Bridge.Services : null;
 
         /// <summary>
         /// Gets the Database interface if this model is valid.
         /// </summary>
-        [NotMapped]
+        [NotMapped][JsonIgnore]
         public Database Database => m_Bridge != null ? m_Bridge.Database : null;
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using LuxAsp.Authorizations;
 using LuxAsp.Notations;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -60,7 +61,7 @@ namespace LuxAsp.Authorizations
         /// <summary>
         /// Test whether this token is expired or not.
         /// </summary>
-        [NotMapped]
+        [NotMapped][JsonIgnore]
         public bool IsExpired => IsValid && ExpirationTime <= DateTime.Now;
 
         /// <summary>

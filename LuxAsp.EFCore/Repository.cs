@@ -314,6 +314,14 @@ namespace LuxAsp
                 return false;
             
             bool Result = false;
+
+            if (!Model.IsNew)
+            {
+                m_Database.Instance
+                    .Entry(Model)
+                    .DetectChanges();
+            }
+
             await OnSaveRequest(Model, async () =>
             {
                 await Model.InvokeSaveRequest(async () 

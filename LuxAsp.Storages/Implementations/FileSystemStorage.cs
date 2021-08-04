@@ -109,14 +109,10 @@ namespace LuxAsp.Implementations
                 if (!Directory.Exists(BasePath))
                      Directory.CreateDirectory(BasePath);
 
-                var Attribute = File.GetAttributes(Path);
-                if (Attribute.HasFlag(FileAttributes.Directory))
-                    throw new NotSupportedException("the path indicates a directory.");
-
                 if (File.Exists(Path))
                     File.Delete(Path);
             }
-            catch(Exception e) when (!(e is NotSupportedException)) { return false; }
+            catch(Exception e) { return false; }
 
             try
             {
