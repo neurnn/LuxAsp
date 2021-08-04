@@ -12,17 +12,12 @@ namespace LuxAsp.Notations
             public static readonly object STATE_KEY = new object();
             public void Apply(NotationContext<TEntity> Context)
             {
-                var Indices = this.GroupBy(X => X.Property);
+                var Properties = this
+                    .OrderBy(X => X.Order)
+                    .Select(X => X.Property)
+                    .ToArray();
 
-                foreach (var Each in Indices)
-                {
-                    var Properties = Each
-                        .OrderBy(X => X.Order)
-                        .Select(X => X.Property)
-                        .ToArray();
-
-                    Context.Entity.HasKey(Properties);
-                }
+                Context.Entity.HasKey(Properties);
             }
         }
 
