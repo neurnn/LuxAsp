@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>LuxAsp</RootNamespace>
+    <Authors>Jaehoon Jo</Authors>
+    <Company>neurnn</Company>
+    <Description>Dynamic Settings Module with EFCore for LuxAsp.</Description>
+    <Copyright>copyright (c) 2021 neurnn, all rights reserved</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LuxAsp.EFCore\LuxAsp.EFCore.csproj" />
+    <ProjectReference Include="..\LuxAsp.Settings\LuxAsp.Settings.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
