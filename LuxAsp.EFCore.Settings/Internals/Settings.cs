@@ -7,7 +7,7 @@ namespace LuxAsp.Internals
 {
     internal class Settings : DataModel
     {
-        [MultiPrimaryKey(0)]
+        [MultiPrimaryKey(0)][Required(AllowEmptyStrings = false)][MaxLength(255)]
         public string Type { get; set; }
 
         [MultiPrimaryKey(1)][Required(AllowEmptyStrings = true)][MaxLength(255)]

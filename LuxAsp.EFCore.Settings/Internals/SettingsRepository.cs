@@ -29,7 +29,7 @@ namespace LuxAsp.Internals
         private Settings Load(Type ModelType, string Key = null)
         {
             Settings Settings;
-            var CacheKey = MakeCacheKey(ModelType, Key);
+            var CacheKey = MakeCacheKey(ModelType, Key ??= "");
 
             lock (m_Caches)
             {
@@ -37,9 +37,9 @@ namespace LuxAsp.Internals
                     return Settings;
             }
 
-            var TypeName = ModelType.FullName;
+            var TypeName = ModelType.Name;
             Settings = Load(Query(X => X.Type == TypeName)
-                .Where(X => X.Key == ""))
+                .Where(X => X.Key == Key))
                 .FirstOrDefault();
 
             lock (m_Caches)
@@ -74,7 +74,7 @@ namespace LuxAsp.Internals
         /// <returns></returns>
         public SettingsModel GetSettings(Type ModelType, string Key)
         {
-            var Model = Load(ModelType, Key);
+            var Model = Load(ModelType, Key ??= "");
             if (Model != null)
             {
                 if (Model.Instance is null)
@@ -113,6 +113,7 @@ namespace LuxAsp.Internals
         public ISettingsRepository SetSettings(Type ModelType, string Key, SettingsModel Value)
         {
             Settings Settings;
+            Key ??= "";
 
             if (Value is null)
             {

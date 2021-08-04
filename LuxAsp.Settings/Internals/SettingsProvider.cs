@@ -63,7 +63,7 @@ namespace LuxAsp.Internals
         /// <param name="Key"></param>
         /// <returns></returns>
         public TModel GetSettings<TModel>(string Key) where TModel : SettingsModel
-            => GetRepositoryByModel<TModel>().GetSettings(typeof(TModel), Key) as TModel;
+            => GetRepositoryByModel<TModel>().GetSettings(typeof(TModel), Key ?? "") as TModel;
 
         /// <summary>
         /// Set Default Settings.
@@ -86,7 +86,7 @@ namespace LuxAsp.Internals
         /// <returns></returns>
         public ISettingsProvider SetSettings<TModel>(string Key, TModel Value) where TModel : SettingsModel
         {
-            GetRepositoryByModel<TModel>().SetSettings(typeof(TModel), Key, Value);
+            GetRepositoryByModel<TModel>().SetSettings(typeof(TModel), Key ?? "", Value);
             return this;
         }
     }

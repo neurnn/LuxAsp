@@ -9,6 +9,7 @@
     <Copyright>copyright (c) 2021 neurnn, all rights reserved</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
