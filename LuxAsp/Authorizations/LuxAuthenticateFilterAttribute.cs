@@ -26,8 +26,15 @@ namespace LuxAsp.Authorizations
             if (await Authenticate(Context.HttpContext, Authentication))
                 await base.OnActionExecutionAsync(Context, Next);
 
-            else if ((Context.Result = await OnFailoverAsync(Context.HttpContext)) is null)
-                Context.Result = new StatusCodeResult(401);
+            else
+            {
+                Context.Result =
+                    await OnFailoverAsync(Context.HttpContext)
+                    ?? new StatusCodeResult(401);
+
+                if (Context.Result != null)
+                    await Context.Result.ExecuteResultAsync(Context);
+            }
         }
 
         /// <summary>
@@ -43,8 +50,15 @@ namespace LuxAsp.Authorizations
             if (await Authenticate(Context.HttpContext, Authentication))
                 await base.OnResultExecutionAsync(Context, Next);
 
-            else if ((Context.Result = await OnFailoverAsync(Context.HttpContext)) is null)
-                Context.Result = new StatusCodeResult(401);
+            else
+            {
+                Context.Result =
+                    await OnFailoverAsync(Context.HttpContext)
+                    ?? new StatusCodeResult(401);
+
+                if (Context.Result != null)
+                    await Context.Result.ExecuteResultAsync(Context);
+            }
         }
 
         /// <summary>

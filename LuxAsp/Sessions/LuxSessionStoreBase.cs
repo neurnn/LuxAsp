@@ -9,6 +9,7 @@ namespace LuxAsp.Sessions
 {
     public abstract class LuxSessionStoreBase : ILuxSessionStore
     {
+        private static AsyncLocal<HttpContext> m_Http = new AsyncLocal<HttpContext>();
         private CookieBuilder m_CookieBuilder;
         private LuxSessionOptions m_Options;
         private ILuxSessionStoreWorker m_Worker;
@@ -24,6 +25,16 @@ namespace LuxAsp.Sessions
         }
 
         /// <summary>
+        /// Determines whether sessions shouldn't be locked or not.
+        /// </summary>
+        public bool NoLocks => m_Options.NoLocks;
+
+        /// <summary>
+        /// Gets or Sets Http Context.
+        /// </summary>
+        public HttpContext HttpContext => m_Http.Value;
+
+        /// <summary>
         /// Open Session for the HttpContext asynchronously.
         /// When the context has expired or invalid session id, this should recreate it.
         /// And if this returns null for, it means that the session store couldn't create or load the session.
@@ -35,7 +46,7 @@ namespace LuxAsp.Sessions
         {
             var Cookies = HttpContext.Request.Cookies;
             var OutCookies = HttpContext.Response.Cookies;
-            ILuxSession Session;
+            ILuxSession Session; m_Http.Value = HttpContext;
 
             if (Cookies.TryGetValue(m_CookieBuilder.Name, out var Id) && !string.IsNullOrWhiteSpace(Id) &&
                 (Session = await GetAsync(Id, m_Options.Expiration, Token)) != null)
@@ -57,6 +68,7 @@ namespace LuxAsp.Sessions
             if (Session is null)
             {
                 ExecutePassiveTasks();
+                m_Http.Value = null;
                 return false;
             }
 
@@ -65,11 +77,13 @@ namespace LuxAsp.Sessions
                 Session.Abandon();
                 await DeleteAsync(Session, Token);
             }
-
+            
+            else await FlushAsync(Session, Token);
             if (Session.Lockable != null)
                 await Session.Lockable.ReleaseAsync(Token);
 
             ExecutePassiveTasks();
+            m_Http.Value = null;
             return true;
         }
 
@@ -136,6 +150,14 @@ namespace LuxAsp.Sessions
         /// <param name="Token"></param>
         /// <returns></returns>
         protected abstract Task DeleteAsync(ILuxSession Session, CancellationToken Token);
+
+        /// <summary>
+        /// Flush Changes of the Session asynchronously.
+        /// </summary>
+        /// <param name="Session"></param>
+        /// <param name="Token"></param>
+        /// <returns></returns>
+        protected virtual Task FlushAsync(ILuxSession Session, CancellationToken Token) => Task.CompletedTask;
 
         /// <summary>
         /// Collect Garbages asynchronously.

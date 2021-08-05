@@ -35,6 +35,11 @@ namespace LuxAsp.Sessions
         public IDictionary<string, object> Properties { get; } = new Dictionary<string, object>();
 
         /// <summary>
+        /// Gets or Sets whether sessions should be handled without lock or not.
+        /// </summary>
+        public bool NoLocks { get; set; } = true;
+
+        /// <summary>
         /// Timeout when loads Session.
         /// </summary>
         public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(30);

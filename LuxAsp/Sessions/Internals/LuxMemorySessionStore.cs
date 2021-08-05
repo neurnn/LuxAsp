@@ -72,14 +72,20 @@ namespace LuxAsp.Sessions.Internals
                 }
             }
 
-            try { await Session.Lockable.AcquireAsync(Token); }
-            catch { return null; }
+            if (!NoLocks)
+            {
+                try { await Session.Lockable.AcquireAsync(Token); }
+                catch { return null; }
+            }
 
             if ((DateTime.Now - Session.LastAccessTime) >= Expiration)
             {
                 Session.Abandon();
                 await DeleteAsync(Session, default);
-                await Session.Lockable.ReleaseAsync(Token);
+
+                if (!NoLocks)
+                    await Session.Lockable.ReleaseAsync(Token);
+
                 return null;
             }
 
@@ -143,11 +149,14 @@ namespace LuxAsp.Sessions.Internals
 
             foreach (var Each in Sessions)
             {
-                await Each.Lockable.AcquireAsync(default);
-                Each.Abandon();
+                if (!NoLocks)
+                    await Each.Lockable.AcquireAsync(default);
 
+                Each.Abandon();
                 await DeleteAsync(Each, default);
-                await Each.Lockable.ReleaseAsync(default);
+
+                if (!NoLocks)
+                    await Each.Lockable.ReleaseAsync(default);
             }
 
             Sessions = null;
@@ -195,7 +204,8 @@ namespace LuxAsp.Sessions.Internals
         /// <returns></returns>
         private async Task SwapIdleAsync(MemorySession Each)
         {
-            await Each.Lockable.AcquireAsync(default);
+            if (!NoLocks)
+                await Each.Lockable.AcquireAsync(default);
 
             lock (m_Instances)
             {
@@ -203,7 +213,8 @@ namespace LuxAsp.Sessions.Internals
                     m_Instances.Remove(Each.Guid);
             }
 
-            await Each.Lockable.ReleaseAsync(default);
+            if (!NoLocks)
+                await Each.Lockable.ReleaseAsync(default);
         }
 
         /// <summary>
