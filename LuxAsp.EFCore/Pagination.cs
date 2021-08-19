@@ -93,7 +93,7 @@ namespace LuxAsp
         private IEnumerable<TEntity> LoadView()
         {
             if (m_CurrentView is null) /* Loads the Current View records. */
-                m_CurrentView = m_Repository.LoadAsync(m_Query.Skip(m_PageIndex).Take(ItemsPerPage)).Result;
+                m_CurrentView = m_Repository.LoadAsync(m_Query.Skip(m_PageIndex * ItemsPerPage).Take(ItemsPerPage)).Result;
 
             return m_CurrentView;
         }

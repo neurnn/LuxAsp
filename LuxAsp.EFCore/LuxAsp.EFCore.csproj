@@ -13,7 +13,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/neurnn/LuxAsp</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>1.0.0.6</Version>
+    <Version>1.0.0.7</Version>
   </PropertyGroup>
 
   <ItemGroup>

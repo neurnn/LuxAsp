@@ -19,7 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuxAsp.Settings", "LuxAsp.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuxAsp.EFCore.Settings", "LuxAsp.EFCore.Settings\LuxAsp.EFCore.Settings.csproj", "{F41AB552-35F7-47F5-8CB5-5F036716A0DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuxAsp.EFCore.Sessions", "LuxAsp.EFCore.Sessions\LuxAsp.EFCore.Sessions.csproj", "{31B359F4-623D-4281-AF62-A3E4E0CE9D15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuxAsp.EFCore.Sessions", "LuxAsp.EFCore.Sessions\LuxAsp.EFCore.Sessions.csproj", "{31B359F4-623D-4281-AF62-A3E4E0CE9D15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuxAsp.Maps", "LuxAsp.Maps\LuxAsp.Maps.csproj", "{730BF047-5FEC-4D3E-B235-7BC3C3ED6C9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuxAsp.Maps.Kakao", "LuxAsp.Maps.Kakao\LuxAsp.Maps.Kakao.csproj", "{2EB88ED9-CBC8-4F4F-8002-64E23D6A3A3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +67,14 @@ Global
 		{31B359F4-623D-4281-AF62-A3E4E0CE9D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31B359F4-623D-4281-AF62-A3E4E0CE9D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31B359F4-623D-4281-AF62-A3E4E0CE9D15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{730BF047-5FEC-4D3E-B235-7BC3C3ED6C9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{730BF047-5FEC-4D3E-B235-7BC3C3ED6C9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{730BF047-5FEC-4D3E-B235-7BC3C3ED6C9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{730BF047-5FEC-4D3E-B235-7BC3C3ED6C9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EB88ED9-CBC8-4F4F-8002-64E23D6A3A3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EB88ED9-CBC8-4F4F-8002-64E23D6A3A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EB88ED9-CBC8-4F4F-8002-64E23D6A3A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EB88ED9-CBC8-4F4F-8002-64E23D6A3A3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
