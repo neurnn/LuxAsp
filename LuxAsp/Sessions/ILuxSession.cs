@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LuxAsp.Sessions
 {
@@ -50,5 +51,11 @@ namespace LuxAsp.Sessions
         /// </summary>
         /// <returns></returns>
         bool Abandon();
+
+        /// <summary>
+        /// Flush changes of the session asynchronously.
+        /// </summary>
+        /// <returns></returns>
+        Task FlushAsync();
     }
 }

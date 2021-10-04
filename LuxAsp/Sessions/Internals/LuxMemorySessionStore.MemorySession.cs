@@ -32,6 +32,12 @@ namespace LuxAsp.Sessions.Internals
             /// Session Guid.
             /// </summary>
             public Guid Guid { get; set; }
+
+            /// <summary>
+            /// Do nothing.
+            /// </summary>
+            /// <returns></returns>
+            public override Task FlushAsync() => Task.CompletedTask;
         }
 
     }

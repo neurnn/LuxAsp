@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>LuxAsp</RootNamespace>
+    <Authors>Jaehoon Jo</Authors>
+    <Company>neurnn</Company>
+    <Description>ASP.NET Core Web Framework.</Description>
+    <Copyright>copyright (c) 2021 neurnn, all rights reserved</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/neurnn/LuxAsp</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Maps\MapsGeoplace.cs~RF1acc5e16.TMP" />
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LuxAsp\LuxAsp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Maps\ViewHelpers\" />
+  </ItemGroup>
+
+</Project>

@@ -89,6 +89,11 @@ namespace LuxAsp.Sessions
         public virtual IEnumerable<string> Keys => m_KeyValues.Keys;
 
         /// <summary>
+        /// Session Store that created this session.
+        /// </summary>
+        public ILuxSessionStore Store { get; protected set; }
+
+        /// <summary>
         /// Abandon the Session.
         /// </summary>
         /// <returns></returns>
@@ -156,5 +161,11 @@ namespace LuxAsp.Sessions
             lock (m_KeyValues)
                 return m_KeyValues.Remove(Key);
         }
+
+        /// <summary>
+        /// Flush changes of the session asynchronously.
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task FlushAsync();
     }
 }

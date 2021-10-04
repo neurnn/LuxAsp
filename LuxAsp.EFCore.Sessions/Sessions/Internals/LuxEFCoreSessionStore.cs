@@ -39,6 +39,12 @@ namespace LuxAsp.Sessions.Internals
             /// Note that, the Lockable is based on 
             /// </summary>
             public override ILuxSessionLockable Lockable { get; } = new AcquireAndRelease();
+
+            /// <summary>
+            /// Flush changes to database.
+            /// </summary>
+            /// <returns></returns>
+            public override async Task FlushAsync() => await Model.SaveAsync();
         }
 
         /// <summary>
